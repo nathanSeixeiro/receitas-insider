@@ -27,11 +27,6 @@ export function Form(){
 
 
 const styles = StyleSheet.create({
-    title: {
-        fontSize: 26,
-        fontWeight:'bold',
-        color: "#0e0e0e"
-    },
     form: {
         backgroundColor: '#FFF',
         width: '100%',
