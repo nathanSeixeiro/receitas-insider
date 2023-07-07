@@ -2,9 +2,9 @@
 import { View,StyleSheet ,Image, Pressable } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 
-export function Cover({src}){
+export function Cover({src, onPress}){
     return(
-        <Pressable>
+        <Pressable onPress={onPress}>
             <View style={styles.playIcon}>
                 <AntDesign name='playcircleo' size={60} color='#FAFAFA' />
             </View>
