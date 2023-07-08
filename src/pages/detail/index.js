@@ -8,26 +8,47 @@ import { Ingredients } from '../../components/Ingredients'
 import { Instructions } from '../../components/Instructions/index';
 import { Video } from '../../components/Video'
 
+import { isFavorite, removeFavorite, saveFavorite } from '../../utils/storage'
+
 export function Detail() {
     const route = useRoute()
     const navigation = useNavigation()
     const [showVideo, setShowVideo] = useState(false)
+    const [favorite, setFavorite] = useState(false)
 
     useLayoutEffect(() => {
+
+        async function getStatusFavorite() {
+            const favorite = await isFavorite(route.params?.data)
+            setFavorite(favorite)
+        }
+
+        getStatusFavorite()
+
         navigation.setOptions({
             title: route.params?.data ? route.params?.data.name : "Detalhes da receita",
             headerRight: () => (
-                <Pressable onPress={() => console.log('favoritou')}>
-                    <Entypo
-                        name="heart"
-                        size={28}
-                        color="#FF4141"
-                    />
+                <Pressable onPress={() => handleFavoriteReceipe(route.params?.data) }>
+                    {
+                        favorite ? (
+                            <Entypo
+                                name="heart"
+                                size={28}
+                                color="#FF4141"
+                            />
+                        ) : (
+                            <Entypo
+                                name="heart-outlined"
+                                size={28}
+                                color="#FF4141"
+                            />
+                        )
+                    }
                 </Pressable>
             )
 
         })
-    }, [navigation, route.params?.data])
+    }, [navigation, route.params?.data, favorite])
 
     function handleOpenVideo() {
         setShowVideo(true)
@@ -41,6 +62,16 @@ export function Detail() {
             })
         } catch (error) {
             console.log(error);
+        }
+    }
+
+    async function handleFavoriteReceipe(receipe){
+        if(favorite){
+            await removeFavorite(receipe.id)
+            setFavorite(false)
+        }else{
+            await saveFavorite("@appreceitas", receipe)
+            setFavorite(true)
         }
     }
 
