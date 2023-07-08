@@ -29,16 +29,16 @@ export function Detail() {
         })
     }, [navigation, route.params?.data])
 
-    function handleOpenVideo(){
+    function handleOpenVideo() {
         setShowVideo(true)
     }
 
-    async function shareReceipe(){
+    async function shareReceipe() {
         try {
-          await Share.share({
-            url: 'https://www.google.com',
-            message:`receita de ${route.params?.data.name} no App Receitas`
-          })  
+            await Share.share({
+                url: 'https://www.google.com',
+                message: `receita de ${route.params?.data.name} no App Receitas`
+            })
         } catch (error) {
             console.log(error);
         }
@@ -50,7 +50,7 @@ export function Detail() {
             showsVerticalScrollIndicator={false}
             contentContainerStyle={{ paddingBottom: 14 }}
         >
-            <Cover src={route.params?.data.cover} onPress={handleOpenVideo}/>
+            <Cover src={route.params?.data.cover} onPress={handleOpenVideo} />
 
             <View style={styles.headerDetails}>
                 <View>
@@ -77,11 +77,11 @@ export function Detail() {
             </View>
 
             {route.params?.data.instructions.map((item, index) => (
-                <Instructions key={item.id} data={item} index={index}/>
+                <Instructions key={item.id} data={item} index={index} />
             ))}
 
             <Modal visible={showVideo} animationType='slide'>
-                <Video 
+                <Video
                     handleClose={() => setShowVideo(false)}
                     src={route.params?.data.video}
                 />
